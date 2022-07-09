@@ -3,6 +3,7 @@ package br.com.fiap.cartao.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,6 +20,7 @@ import br.com.fiap.cartao.dto.ClienteDTO;
 import br.com.fiap.cartao.dto.CreateUpdateClienteDTO;
 import br.com.fiap.cartao.dto.LimiteDisponivelClienteDTO;
 import br.com.fiap.cartao.service.ClienteService;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("clientes")
@@ -30,31 +32,71 @@ public class ClienteController {
 		this.clienteService = clienteService;
 	}
 	
-	@PostMapping
+	@Operation(
+			summary = "Cria um cliente do Cartão FIAP", 
+			description = "Recebe nome e matricula de aluno FIAP que será cliente do Cartão FIAP"
+			)
+	@PostMapping(
+			produces = {
+					MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE
+			})
 	@ResponseStatus(HttpStatus.CREATED)
 	public ClienteDTO insert(@RequestBody CreateUpdateClienteDTO createUpdateClienteDTO) {
 		return clienteService.create(createUpdateClienteDTO);
 	}
 	
-	@GetMapping
+	
+	@Operation(
+			summary = "Lista os clientes do Cartão FIAP",
+			description = "Lista todos os clientes do Cartão FIAP ou filtra lista por parte de nome informado"
+			)
+	@GetMapping(
+			produces = {
+					MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE
+			})
 	public List<ClienteDTO> listClientes(
 			@RequestParam(required = false) String nome
-	){
+			){
 		return clienteService.listAll(nome);
 	}
 	
-	@GetMapping("{id}")
+	@Operation(
+			summary = "Consulta um cliente do cartão FIAP", 
+			description = "Consulta um cliente do cartão FIAP através do identificador do Cliente"
+			)
+	@GetMapping(
+			path = "{id}", 
+			produces = {
+					MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE
+			})
 	public ClienteDTO findById(@PathVariable Long id) {
 		return clienteService.findbyId(id);
 	}
 	
+	
+	@Operation(
+			summary = "Excluir um cliente do cartão FIAP",
+			description = "Excluir um cliente do cartão FIAP através do identificador do Cliente"
+			)
 	@DeleteMapping("{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) {
 		clienteService.delete(id);
 	}
 	
-	@PutMapping("{id}")
+	@Operation(
+			summary = "Altera um cliente do cartão FIAP", 
+			description = "Altera o nome e matricula de um cliente do cartão FIAP através do identificador do Cliente"
+			)
+	@PutMapping(
+			path = "{id}",
+			produces = {
+					MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE
+			})
 	public ClienteDTO update(
 			@PathVariable Long id,
 			@RequestBody CreateUpdateClienteDTO createUpdateClienteDTO 
@@ -62,7 +104,16 @@ public class ClienteController {
 		return clienteService.update(id, createUpdateClienteDTO);
 	}
 	
-	@PatchMapping("limite/{id}")
+	@Operation(
+			summary = "Altera o limite disponível do cliente de cartão FIAP",
+			description = "Altera o limite disponível do cliente de cartão FIAP através do identificador do Cliente"
+			)
+	@PatchMapping(
+			path = "limite/{id}",
+			produces = {
+					MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE
+			})
 	public ClienteDTO updateLimite(
 			@PathVariable Long id,
 			@RequestBody LimiteDisponivelClienteDTO limiteDisponivelClienteDTO 

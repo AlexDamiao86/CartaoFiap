@@ -34,7 +34,7 @@ public class Cliente {
 	@Column(length = 100)
 	private String nome;
 	private int matricula;
-	@Column(name = "limite_disponivel")
+	@Column(name = "limite_disponivel", precision = 6, scale = 2)
 	private BigDecimal limiteDisponivel;
 	@Column(name = "data_cadastro", nullable = false, updatable = false)
 	@CreatedDate

@@ -29,7 +29,7 @@ public class PlasticoCartao {
 	@Column(name = "data_vencimento")
 	private LocalDate dataVencimento;
 	@Enumerated(EnumType.STRING)
-	@Column(length = 30)
+	@Column(length = 30, precision = 6, scale = 2)
 	private SituacaoCartao situacao;
 	@ManyToOne
 	private Cliente cliente;
