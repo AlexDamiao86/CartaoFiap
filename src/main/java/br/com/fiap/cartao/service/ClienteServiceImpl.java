@@ -1,6 +1,5 @@
 package br.com.fiap.cartao.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +37,6 @@ public class ClienteServiceImpl implements ClienteService {
 							.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		cliente.setNome(createUpdateClienteDTO.getNome());
 		cliente.setMatricula(createUpdateClienteDTO.getMatricula());
-		cliente.setDataUltimaAtualizacao(LocalDateTime.now());
 		Cliente clienteAlterado = clienteRepository.save(cliente);
 		return new ClienteDTO(clienteAlterado);
 	}
@@ -48,7 +46,6 @@ public class ClienteServiceImpl implements ClienteService {
 		Cliente cliente = clienteRepository.findById(id)
 							.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		cliente.setLimiteDisponivel(limiteDisponivelClienteDTO.getLimite());
-		cliente.setDataUltimaAtualizacao(LocalDateTime.now());
 		Cliente clienteAlterado = clienteRepository.save(cliente);
 		return new ClienteDTO(clienteAlterado);
 	}

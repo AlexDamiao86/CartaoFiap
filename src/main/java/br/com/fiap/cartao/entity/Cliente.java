@@ -52,7 +52,6 @@ public class Cliente {
 		this.nome = nome; 
 		this.matricula = matricula;
 		this.limiteDisponivel = new BigDecimal(2000.00);
-		this.dataCadastro = this.dataUltimaAtualizacao = LocalDateTime.now();
 		this.cartoes = new ArrayList<>();
 	}
 	
