@@ -11,7 +11,7 @@ spring:
     driverClassName: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   h2:
     console: 
       enabled: true
