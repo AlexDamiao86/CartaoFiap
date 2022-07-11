@@ -34,10 +34,10 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(length = 100)
+	@Column
 	private String nome;
 	private int matricula;
-	@Column(name = "limite_disponivel", precision = 6, scale = 2)
+	@Column(name = "limite_disponivel")
 	private BigDecimal limiteDisponivel;
 	@Column(name = "data_cadastro", nullable = false, updatable = false)
 	@CreatedDate
@@ -47,17 +47,33 @@ public class Cliente {
 	private LocalDateTime dataUltimaAtualizacao;
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<PlasticoCartao> cartoes;
-
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+	private List<Fatura> faturas;
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+	private List<Compra> compras;
+	
 	public Cliente(String nome, int matricula) {
 		this.nome = nome; 
 		this.matricula = matricula;
 		this.limiteDisponivel = new BigDecimal(2000.00);
 		this.cartoes = new ArrayList<>();
+		this.faturas = new ArrayList<>();
+		this.compras = new ArrayList<>();
 	}
 	
 	public void adicionarCartao(PlasticoCartao cartao) {
 		cartao.setCliente(this);
 		this.cartoes.add(cartao);
+	}
+	
+	public void adicionarFatura(Fatura fatura) {
+		fatura.setCliente(this);
+		this.faturas.add(fatura);
+	}
+	
+	public void adicionarCompra(Compra compra) {
+		compra.setCliente(this);
+		this.compras.add(compra);
 	}
 	
 }

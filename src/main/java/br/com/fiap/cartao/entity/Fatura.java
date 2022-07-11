@@ -1,6 +1,5 @@
 package br.com.fiap.cartao.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -20,36 +19,34 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name="cartoes")
-public class PlasticoCartao {
+@Table(name="faturas")
+public class Fatura {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id; 
-	private Long numero;
-	private BigDecimal limite;
-	@Column(name = "data_vencimento")
-	private LocalDate dataVencimento;
+	private LocalDate dataVencimento; 
 	@Enumerated(EnumType.STRING)
-	private SituacaoCartao situacao;
-	@Column(name = "data_cadastro", nullable = false, updatable = false)
+	private SituacaoFatura situacao;
+	@Column(name = "data_inclusao", nullable = false, updatable = false)
 	@CreatedDate
-	private LocalDateTime dataCadastro;
+	private LocalDateTime dataInclusao;
 	@Column(name = "data_atualizacao", nullable = false, updatable = true)
 	@LastModifiedDate
 	private LocalDateTime dataUltimaAtualizacao;	
 	@ManyToOne
 	private Cliente cliente;
-
-	public PlasticoCartao(Cliente cliente) {
+	
+	public Fatura(Cliente cliente) {
 		this.cliente = cliente;
-		this.limite = cliente.getLimiteDisponivel();
-		this.situacao = SituacaoCartao.ATIVO;
+		this.situacao = SituacaoFatura.EM_ABERTO;
 	}
-
+	
 }

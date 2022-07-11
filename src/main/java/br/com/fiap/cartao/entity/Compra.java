@@ -20,36 +20,39 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name="cartoes")
-public class PlasticoCartao {
+@Table(name="compras")
+public class Compra {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; 
-	private Long numero;
-	private BigDecimal limite;
-	@Column(name = "data_vencimento")
-	private LocalDate dataVencimento;
+	private Long id;
+	@ManyToOne
+	private Cliente cliente;
+	@ManyToOne
+	private PlasticoCartao cartao; 
+	@ManyToOne(optional = true)
+	private Fatura fatura;
+	private BigDecimal valor; 
+	private LocalDate data; 
 	@Enumerated(EnumType.STRING)
-	private SituacaoCartao situacao;
-	@Column(name = "data_cadastro", nullable = false, updatable = false)
+	private SituacaoCompra situacao;
+	@Column(name = "data_inclusao", nullable = false, updatable = false)
 	@CreatedDate
-	private LocalDateTime dataCadastro;
+	private LocalDateTime dataInclusao;
 	@Column(name = "data_atualizacao", nullable = false, updatable = true)
 	@LastModifiedDate
 	private LocalDateTime dataUltimaAtualizacao;	
-	@ManyToOne
-	private Cliente cliente;
-
-	public PlasticoCartao(Cliente cliente) {
-		this.cliente = cliente;
-		this.limite = cliente.getLimiteDisponivel();
-		this.situacao = SituacaoCartao.ATIVO;
+	
+	public Compra(Cliente cliente, PlasticoCartao cartao) {
+		this.cliente = cliente; 
+		this.cartao = cartao;
+		this.situacao = SituacaoCompra.AUTORIZADA;
 	}
-
 }
