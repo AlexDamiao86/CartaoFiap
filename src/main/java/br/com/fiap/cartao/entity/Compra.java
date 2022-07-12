@@ -50,9 +50,11 @@ public class Compra {
 	@LastModifiedDate
 	private LocalDateTime dataUltimaAtualizacao;	
 	
-	public Compra(Cliente cliente, PlasticoCartao cartao) {
+	public Compra(Cliente cliente, PlasticoCartao cartao, BigDecimal valor, LocalDate data) {
 		this.cliente = cliente; 
 		this.cartao = cartao;
+		this.valor = valor;
+		this.data = data;
 		this.situacao = SituacaoCompra.AUTORIZADA;
 	}
 }
