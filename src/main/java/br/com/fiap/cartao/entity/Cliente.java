@@ -49,8 +49,8 @@ public class Cliente {
 	private List<PlasticoCartao> cartoes;
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Fatura> faturas;
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-	private List<Compra> compras;
+//	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+//	private List<Compra> compras;
 	
 	public Cliente(String nome, int matricula) {
 		this.nome = nome; 
@@ -58,7 +58,7 @@ public class Cliente {
 		this.limiteDisponivel = new BigDecimal(2000.00);
 		this.cartoes = new ArrayList<>();
 		this.faturas = new ArrayList<>();
-		this.compras = new ArrayList<>();
+//		this.compras = new ArrayList<>();
 	}
 	
 	public void adicionarCartao(PlasticoCartao cartao) {
@@ -71,9 +71,9 @@ public class Cliente {
 		this.faturas.add(fatura);
 	}
 	
-	public void adicionarCompra(Compra compra) {
-		compra.setCliente(this);
-		this.compras.add(compra);
-	}
+//	public void adicionarCompra(Compra compra) {
+//		compra.setCliente(this);
+//		this.compras.add(compra);
+//	}
 	
 }

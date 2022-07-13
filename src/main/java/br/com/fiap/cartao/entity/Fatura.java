@@ -35,7 +35,8 @@ import lombok.Setter;
 public class Fatura {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; 
+	private Long id;
+	@Column(name = "data_vencimento")
 	private LocalDate dataVencimento; 
 	@Enumerated(EnumType.STRING)
 	private SituacaoFatura situacao;

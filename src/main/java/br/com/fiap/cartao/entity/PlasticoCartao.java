@@ -35,7 +35,7 @@ public class PlasticoCartao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id; 
-	private Long numero;
+	private String numero;
 	private BigDecimal limite;
 	@Column(name = "data_vencimento")
 	private LocalDate dataVencimento;
@@ -55,6 +55,7 @@ public class PlasticoCartao {
 	public PlasticoCartao(Cliente cliente) {
 		this.cliente = cliente;
 		this.limite = cliente.getLimiteDisponivel();
+		cliente.setLimiteDisponivel(BigDecimal.valueOf(0));
 		this.situacao = SituacaoCartao.ATIVO;
 	}
 	
