@@ -1,5 +1,8 @@
 package br.com.fiap.cartao.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,10 +35,13 @@ public class CompraServiceImpl implements CompraService {
 				.findById(createCompraDTO.getIdPlastico())
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cartao nao encontrado"));
 		
+		DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+		LocalDate dataCompra = LocalDate.parse(createCompraDTO.getData(), dataFormatter);
+		
 		Compra compra = new Compra(
 				cartao,
 				createCompraDTO.getValor(),
-				createCompraDTO.getData()
+				dataCompra
 				);
 		Compra compraGravada = compraRepository.save(compra);
 		return new CompraDTO(compraGravada, cartao);
