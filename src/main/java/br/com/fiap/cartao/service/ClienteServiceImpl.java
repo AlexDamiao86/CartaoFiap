@@ -9,7 +9,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.cartao.dto.ClienteDTO;
 import br.com.fiap.cartao.dto.CreateUpdateClienteDTO;
-import br.com.fiap.cartao.dto.LimiteDisponivelClienteDTO;
 import br.com.fiap.cartao.entity.Cliente;
 import br.com.fiap.cartao.repository.ClienteRepository;
 
@@ -37,15 +36,6 @@ public class ClienteServiceImpl implements ClienteService {
 							.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		cliente.setNome(createUpdateClienteDTO.getNome());
 		cliente.setMatricula(createUpdateClienteDTO.getMatricula());
-		Cliente clienteAlterado = clienteRepository.save(cliente);
-		return new ClienteDTO(clienteAlterado);
-	}
-
-	@Override
-	public ClienteDTO updateLimite(Long id, LimiteDisponivelClienteDTO limiteDisponivelClienteDTO) {
-		Cliente cliente = clienteRepository.findById(id)
-							.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-		cliente.setLimiteDisponivel(limiteDisponivelClienteDTO.getLimite());
 		Cliente clienteAlterado = clienteRepository.save(cliente);
 		return new ClienteDTO(clienteAlterado);
 	}

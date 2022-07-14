@@ -2,7 +2,7 @@ package br.com.fiap.cartao.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,8 +26,8 @@ public class CompraController {
 	}
 	
 	@Operation(
-			summary = "Informa uma compra autorizada no Cartão FIAP", 
-			description = "Recebe os dados de uma compra autorizada no Cartão FIAP"
+			summary = "Informa a compra autorizada no Cartão FIAP", 
+			description = "Recebe identificador cliente, valor, data da compra autorizada no Cartão FIAP"
 			)
 	@PostMapping(
 			produces = {
@@ -40,16 +40,16 @@ public class CompraController {
 	}
 	
 	@Operation(
-			summary = "Informa o estorno de uma compra no Cartão FIAP",
-			description = "Estorna uma compra no cartão FIAP através do identificador da compra"
+			summary = "Informa o estorno de uma compra de um cliente no Cartão FIAP",
+			description = "Estorna uma compra de cliente no cartão FIAP através do identificador da compra"
 			)
-	@PatchMapping(
+	@DeleteMapping(
 			path = "{id}",
 			produces = {
 					MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE
 			})
-	public CompraDTO updateSituacao(@PathVariable Long id) {
+	public CompraDTO cancel(@PathVariable Long id) {
 		return compraService.cancel(id);
 	}
 	

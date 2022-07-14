@@ -9,48 +9,50 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.cartao.dto.CompraDTO;
 import br.com.fiap.cartao.dto.CreateCompraDTO;
+import br.com.fiap.cartao.entity.Cliente;
 import br.com.fiap.cartao.entity.Compra;
-import br.com.fiap.cartao.entity.PlasticoCartao;
+import br.com.fiap.cartao.entity.SituacaoCompra;
+import br.com.fiap.cartao.repository.ClienteRepository;
 import br.com.fiap.cartao.repository.CompraRepository;
-import br.com.fiap.cartao.repository.PlasticoCartaoRepository;
 
 @Service
 public class CompraServiceImpl implements CompraService {
 	
 	private CompraRepository compraRepository;
-	private PlasticoCartaoRepository cartaoRepository;
+	private ClienteRepository clienteRepository;
 	
 	public CompraServiceImpl(
 			CompraRepository compraRepository,
-			PlasticoCartaoRepository cartaoRepository
-		) {
+			ClienteRepository clienteRepository
+			) {
 		this.compraRepository = compraRepository;
-		this.cartaoRepository = cartaoRepository;
+		this.clienteRepository = clienteRepository;
 	}
 
 	@Override
 	public CompraDTO create(CreateCompraDTO createCompraDTO) {
-		
-		PlasticoCartao cartao = cartaoRepository
-				.findById(createCompraDTO.getIdPlastico())
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cartao nao encontrado"));
-		
+			
+		Cliente cliente = clienteRepository
+				.findById(createCompraDTO.getIdentificadorCliente())
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente nao encontrado"));
+				
 		DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
-		LocalDate dataCompra = LocalDate.parse(createCompraDTO.getData(), dataFormatter);
+		LocalDate dataCompra = LocalDate.parse(createCompraDTO.getDataCompra(), dataFormatter);
 		
-		Compra compra = new Compra(
-				cartao,
-				createCompraDTO.getValor(),
-				dataCompra
-				);
+		Compra compra = new Compra(cliente, dataCompra, createCompraDTO.getValorCompra());
 		Compra compraGravada = compraRepository.save(compra);
-		return new CompraDTO(compraGravada, cartao);
+		return new CompraDTO(compraGravada);
 	}
 
 	@Override
-	public CompraDTO cancel(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public CompraDTO cancel(Long identificadorCompra) {
+		Compra compra = compraRepository
+				.findById(identificadorCompra)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Compra nao encontrada"));
+		
+		compra.setSituacao(SituacaoCompra.ESTORNADA);
+		Compra compraEstornada = compraRepository.save(compra);
+		return new CompraDTO(compraEstornada);
 	}
 
 }

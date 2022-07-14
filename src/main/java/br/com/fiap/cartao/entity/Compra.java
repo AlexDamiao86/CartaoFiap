@@ -33,12 +33,8 @@ public class Compra {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-//	@ManyToOne
-//	private Cliente cliente;
 	@ManyToOne
-	private PlasticoCartao cartao; 
-	@ManyToOne(optional = true)
-	private Fatura fatura;
+	private Cliente cliente;
 	private BigDecimal valor; 
 	private LocalDate data; 
 	@Enumerated(EnumType.STRING)
@@ -50,12 +46,11 @@ public class Compra {
 	@LastModifiedDate
 	private LocalDateTime dataUltimaAtualizacao;	
 	
-//	public Compra(Cliente cliente, PlasticoCartao cartao, BigDecimal valor, LocalDate data) {
-	public Compra(PlasticoCartao cartao, BigDecimal valor, LocalDate data) {
-		//	this.cliente = cliente; 
-		this.cartao = cartao;
-		this.valor = valor;
+	public Compra(Cliente cliente, LocalDate data, BigDecimal valor) {
+		this.cliente = cliente; 
 		this.data = data;
+		this.valor = valor;
 		this.situacao = SituacaoCompra.AUTORIZADA;
+		cliente.adicionarCompra(this);
 	}
 }

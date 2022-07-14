@@ -5,7 +5,7 @@ import br.com.fiap.cartao.dto.CreateCompraDTO;
 
 public interface CompraService {
 
-	CompraDTO create(CreateCompraDTO createUpdateCompraDTO);
-	CompraDTO cancel(Long id);
+	CompraDTO create(CreateCompraDTO createCompraDTO);
+	CompraDTO cancel(Long identificadorCompra);
 	
 }
