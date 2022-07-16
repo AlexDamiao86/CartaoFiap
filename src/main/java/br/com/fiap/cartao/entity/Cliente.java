@@ -51,8 +51,12 @@ public class Cliente {
 		this.compras = new ArrayList<>();
 	}
 	
+	public Cliente(Long id) {
+		this.id = id;
+		this.compras = new ArrayList<>();
+	}
+	
 	public void adicionarCompra(Compra compra) {
-		compra.setCliente(this);
 		this.compras.add(compra);
 	}
 	

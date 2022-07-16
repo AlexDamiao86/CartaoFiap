@@ -32,4 +32,11 @@ public class CompraDTO {
 		this.dataUltimaAtualizacao = compra.getDataUltimaAtualizacao();
 	}
 
+	public String toCSV() {
+		return this.dataCompra+","+this.valorCompra+"\n";
+	}
+	
+	public BigDecimal getValorCompra() {
+		return this.valorCompra;
+	}
 }

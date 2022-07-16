@@ -9,5 +9,5 @@ import br.com.fiap.cartao.entity.Cliente;
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
 	List<Cliente> findAllByNomeContaining(String nome);
-	
+
 }
