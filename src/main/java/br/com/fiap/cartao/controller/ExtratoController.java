@@ -60,9 +60,14 @@ public class ExtratoController {
 	      
 		return (List<CompraDTO>) extratoService.buscaExtrato(id,currentMonth, currentYear);
 	}
+	
+	private List<CompraDTO> dadosExtratoMesAnterior(Long id, int mes, int ano) {
+		return (List<CompraDTO>) extratoService.buscaExtrato(id,mes, ano);
+	}
+	
 	@Operation(
-			summary = "Pesquisa compras autorizada no Cartão FIAP", 
-			description = "Recebe extrato do mês"
+			summary = "Pesquisa compras autorizada no Cartão FIAP do mês e ano indicado", 
+			description = "Informe um ID de cliente, um mês e um ano Ex: anterior/1/7/2022"
 			)
 	@GetMapping("anterior/{idCliente}/{mes}/{ano}")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -74,11 +79,16 @@ public class ExtratoController {
 		return (List<CompraDTO>) extratoService.buscaExtrato(id,mes,ano);
 
 	}
+	
+	@Operation(
+			summary = "Baixa arquivo com as compras realizadas no mês", 
+			description = "Baixa arquivo com as compras realizadas no mês e o total devedor"
+			)
 	@GetMapping(
 			  value = "/arquivo/{id}",
 			  produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
 			)
-			public @ResponseBody byte[] getFile(@PathVariable("id") long id) throws IOException {
+			public @ResponseBody byte[] getArquivoExtratoAtual(@PathVariable("id") long id) throws IOException {
 				
 				
 				String nomeArquivo = "/tmp/extrato"+id+".cvs";
@@ -102,19 +112,41 @@ public class ExtratoController {
 				return IOUtils.toByteArray(is);
 			}
 
+	@Operation(
+			summary = "Baixa arquivo com as compras realizadas no mê e ano informado e mostra o total devedor", 
+			description = "O ID corresponde ao id do cliente que deseja baixar o extrato e o mes deve conter somente números e o ano deve conter 4 dígitos."
+			)
+	@GetMapping(
+			  value = "/arquivo/anterior/{id}/{mes}/{ano}",
+			  produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
+			)
+			public @ResponseBody byte[] getArquivoExtratoAnterior(
+					@PathVariable("id") long id,
+					@PathVariable("mes") int mes,
+					@PathVariable("ano") int ano) throws IOException {
+				
+				
+				String nomeArquivo = "/tmp/extrato"+id+".cvs";
+				
+				
+			    BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo));
+			    writer.append("Data,valor\n");
+			    BigDecimal total = BigDecimal.ZERO; 
+				for (CompraDTO compra : dadosExtratoMesAnterior(id,mes, ano)) {
+				    writer.append(compra.toCSV());
+				    total =total.add(compra.getValorCompra());
+				}
+				
+				writer.append("Total: "+total);
+				writer.close();
+
+				File file = new File(nomeArquivo);
+				//retorna o arquivo preenchido
+				InputStream is = new FileInputStream(file);
+			    
+				return IOUtils.toByteArray(is);
+			}
 	
-//	@Operation(
-//			summary = "Informa o estorno de uma compra de um cliente no Cartão FIAP",
-//			description = "Estorna uma compra de cliente no cartão FIAP através do identificador da compra"
-//			)
-//	@DeleteMapping(
-//			path = "{id}",
-//			produces = {
-//					MediaType.APPLICATION_JSON_VALUE,
-//					MediaType.APPLICATION_XML_VALUE
-//			})
-//	public CompraDTO cancel(@PathVariable Long id) {
-//		return compraService.cancel(id);
-//	}
+
 	
 }
