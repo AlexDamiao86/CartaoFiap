@@ -1,3 +1,5 @@
+drop table CLIENTES if exists;
+
 create table CLIENTES(
 	"ID" BIGINT AUTO_INCREMENT PRIMARY KEY, 
 	"NOME" VARCHAR(100) NOT NULL, 

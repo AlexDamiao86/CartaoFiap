@@ -36,7 +36,7 @@ public class ExtratoController {
 	
 	
 	@Operation(
-			summary = "Pesquisa compras pendentes de pagamento no Cartão FIAP", 
+			summary = "Pesquisa compras pendentes de pagamento no Cartão FIAP no mês atual", 
 			description = "Recebe o identificador do cliente para devolver as compras pendentes de pagamento (extrato) do mês atual"
 			)
 	@GetMapping(
@@ -79,7 +79,7 @@ public class ExtratoController {
 	}
 	
 	@Operation(
-			summary = "Baixa arquivo com as compras realizadas no mês", 
+			summary = "Baixa arquivo com as compras realizadas no mês atual e mostra o saldo devedor", 
 			description = "Baixa arquivo com as compras realizadas no mês e o saldo devedor"
 			)
 	@GetMapping(
