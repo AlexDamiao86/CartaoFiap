@@ -10,7 +10,8 @@ import br.com.fiap.cartao.entity.SituacaoCompra;
 
 public interface CompraRepository extends JpaRepository<Compra, Long> {
 	
-	List<Compra> findAllByDataBetweenAndSituacao(
+	List<Compra> findByCliente_idAndDataBetweenAndSituacao(
+			Long id,
 			LocalDate dataUltimaAtualizacaoInicio,
 			LocalDate dataUltimaAtualizacaoFim,
 			SituacaoCompra situacao);

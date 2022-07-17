@@ -54,6 +54,16 @@ public class CompraServiceImpl implements CompraService {
 		Compra compraEstornada = compraRepository.save(compra);
 		return new CompraDTO(compraEstornada);
 	}
+	
+	
+//	public void delete(Long identificadorCompra) {
+//
+//		Compra compra = compraRepository
+//				.findById(identificadorCompra)
+//				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Compra nao encontrada"));
+//		compraRepository.delete(compra);
+//
+//	}
 
 
 }

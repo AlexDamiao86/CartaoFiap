@@ -56,7 +56,7 @@ public class ExtratoServiceImpl implements ExtratoService {
 		LocalDate dataFim = mesInformado.with(TemporalAdjusters.lastDayOfMonth());
 		System.out.println("dataInicio:"+dataInicio);
 		System.out.println("dataFim:"+dataFim);
-		List<Compra> compras = compraRepository.findAllByDataBetweenAndSituacao(dataInicio, dataFim,SituacaoCompra.AUTORIZADA);
+		List<Compra> compras = compraRepository.findByCliente_idAndDataBetweenAndSituacao(id,dataInicio, dataFim,SituacaoCompra.AUTORIZADA);
 		List<CompraDTO> extrato = new ArrayList<CompraDTO>();
 		for (Compra compra : compras) {
 			extrato.add(new CompraDTO(compra));

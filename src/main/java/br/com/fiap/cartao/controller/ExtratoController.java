@@ -8,16 +8,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,20 +60,20 @@ public class ExtratoController {
 	      
 		return (List<CompraDTO>) extratoService.buscaExtrato(id,currentMonth, currentYear);
 	}
-//	@Operation(
-//			summary = "Pesquisa compras autorizada no Cartão FIAP", 
-//			description = "Recebe extrato do mês"
-//			)
-//	@GetMapping("anterior/{idCliente}/{mes}/{ano}")
-//	@ResponseStatus(HttpStatus.CREATED)
-//	public List<CompraDTO> geraExtratos(
-//			@PathVariable("id") Long id,
-//			@PathVariable("mes") int mes,
-//			@PathVariable("ano") int ano) {
-//		
-//		return extratoService.buscaExtrato(id,mes, ano);
-//
-//	}
+	@Operation(
+			summary = "Pesquisa compras autorizada no Cartão FIAP", 
+			description = "Recebe extrato do mês"
+			)
+	@GetMapping("anterior/{idCliente}/{mes}/{ano}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public List<CompraDTO> geraExtratos(
+			@PathVariable("idCliente") Long id,
+			@PathVariable("mes") int mes,
+			@PathVariable("ano") int ano) {
+		
+		return (List<CompraDTO>) extratoService.buscaExtrato(id,mes,ano);
+
+	}
 	@GetMapping(
 			  value = "/arquivo/{id}",
 			  produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
