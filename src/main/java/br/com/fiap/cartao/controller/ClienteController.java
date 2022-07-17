@@ -19,9 +19,11 @@ import br.com.fiap.cartao.dto.ClienteDTO;
 import br.com.fiap.cartao.dto.CreateUpdateClienteDTO;
 import br.com.fiap.cartao.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("clientes")
+@Tag(name = "/clientes", description = "Gerencia clientes cartões FIAP")
 public class ClienteController {
 
 	private ClienteService clienteService;
@@ -76,8 +78,8 @@ public class ClienteController {
 	
 	
 	@Operation(
-			summary = "Excluir um cliente do cartão FIAP",
-			description = "Excluir um cliente do cartão FIAP através do identificador do Cliente"
+			summary = "Exclui um cliente do cartão FIAP",
+			description = "Exclui um cliente do cartão FIAP através do identificador do Cliente"
 			)
 	@DeleteMapping("{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

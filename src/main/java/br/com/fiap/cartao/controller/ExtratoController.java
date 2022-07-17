@@ -11,21 +11,21 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.cartao.dto.CompraDTO;
 import br.com.fiap.cartao.service.ExtratoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("extrato")
+@Tag(name = "/extrato", description = "Emite extratos de cartões FIAP")
 public class ExtratoController {
 
 	private ExtratoService extratoService;
@@ -36,8 +36,8 @@ public class ExtratoController {
 	
 	
 	@Operation(
-			summary = "Pesquisa compras autorizada no Cartão FIAP", 
-			description = "Recebe extrato do mês"
+			summary = "Pesquisa compras pendentes de pagamento no Cartão FIAP", 
+			description = "Recebe o identificador do cliente para devolver as compras pendentes de pagamento (extrato) do mês atual"
 			)
 	@GetMapping(
 			path = "{id}",
@@ -45,7 +45,6 @@ public class ExtratoController {
 					MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE
 			})
-	@ResponseStatus(HttpStatus.FOUND)
 	public List<CompraDTO> geraExtratos(@PathVariable("id") Long id) {
 		return dadosExtrato(id);
 	}
@@ -66,13 +65,12 @@ public class ExtratoController {
 	}
 	
 	@Operation(
-			summary = "Pesquisa compras autorizada no Cartão FIAP do mês e ano indicado", 
-			description = "Informe um ID de cliente, um mês e um ano Ex: anterior/1/7/2022"
+			summary = "Pesquisa compras pendentes de pagamento no Cartão FIAP no mês/ano indicado", 
+			description = "Informe um identificador de cliente, um mês e um ano Ex: extrato/1/7/2022"
 			)
-	@GetMapping("anterior/{idCliente}/{mes}/{ano}")
-	@ResponseStatus(HttpStatus.CREATED)
+	@GetMapping("{id}/{mes}/{ano}")
 	public List<CompraDTO> geraExtratos(
-			@PathVariable("idCliente") Long id,
+			@PathVariable("id") Long id,
 			@PathVariable("mes") int mes,
 			@PathVariable("ano") int ano) {
 		
@@ -82,7 +80,7 @@ public class ExtratoController {
 	
 	@Operation(
 			summary = "Baixa arquivo com as compras realizadas no mês", 
-			description = "Baixa arquivo com as compras realizadas no mês e o total devedor"
+			description = "Baixa arquivo com as compras realizadas no mês e o saldo devedor"
 			)
 	@GetMapping(
 			  value = "/arquivo/{id}",
@@ -113,11 +111,11 @@ public class ExtratoController {
 			}
 
 	@Operation(
-			summary = "Baixa arquivo com as compras realizadas no mê e ano informado e mostra o total devedor", 
-			description = "O ID corresponde ao id do cliente que deseja baixar o extrato e o mes deve conter somente números e o ano deve conter 4 dígitos."
+			summary = "Baixa arquivo com as compras realizadas no mês/ano informado e mostra o saldo devedor", 
+			description = "Recebe o identificador do cliente e o mês/ano para baixar arquivo com compras realizadas. Ex.: extrato/arquivo/1/6/2022"
 			)
 	@GetMapping(
-			  value = "/arquivo/anterior/{id}/{mes}/{ano}",
+			  value = "/arquivo/{id}/{mes}/{ano}",
 			  produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
 			)
 			public @ResponseBody byte[] getArquivoExtratoAnterior(
@@ -146,7 +144,5 @@ public class ExtratoController {
 			    
 				return IOUtils.toByteArray(is);
 			}
-	
-
 	
 }

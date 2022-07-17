@@ -14,8 +14,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.cartao.controller.ClienteController;
 import br.com.fiap.cartao.controller.CompraController;
@@ -24,7 +22,6 @@ import br.com.fiap.cartao.dto.ClienteDTO;
 import br.com.fiap.cartao.dto.CompraDTO;
 import br.com.fiap.cartao.dto.CreateCompraDTO;
 import br.com.fiap.cartao.dto.CreateUpdateClienteDTO;
-import br.com.fiap.cartao.entity.SituacaoCompra;
 import br.com.fiap.cartao.service.CompraServiceImpl;
 
 @SpringBootTest

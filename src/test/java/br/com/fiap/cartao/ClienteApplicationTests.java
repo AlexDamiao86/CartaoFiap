@@ -91,7 +91,7 @@ class ClienteApplicationTests {
 		clienteController.delete(idCliente);
 		
 		try {
-			ClienteDTO cliente = clienteController.findById(idCliente);
+			clienteController.findById(idCliente);
 
 		} catch (ResponseStatusException e) {
 			assertEquals(e.getMessage(), HttpStatus.NOT_FOUND.value()+ " "+HttpStatus.NOT_FOUND.name());	

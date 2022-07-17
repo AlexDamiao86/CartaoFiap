@@ -12,7 +12,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
 	
 	List<Compra> findByCliente_idAndDataBetweenAndSituacao(
 			Long id,
-			LocalDate dataUltimaAtualizacaoInicio,
-			LocalDate dataUltimaAtualizacaoFim,
+			LocalDate dataInicio,
+			LocalDate dataFim,
 			SituacaoCompra situacao);
 }

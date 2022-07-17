@@ -16,12 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.cartao.dto.CompraDTO;
-import br.com.fiap.cartao.entity.Cliente;
 import br.com.fiap.cartao.entity.Compra;
 import br.com.fiap.cartao.entity.SituacaoCompra;
 import br.com.fiap.cartao.repository.ClienteRepository;
 import br.com.fiap.cartao.repository.CompraRepository;
-import io.swagger.v3.oas.models.Paths;
 
 @Service
 public class ExtratoServiceImpl implements ExtratoService {
@@ -42,7 +40,7 @@ public class ExtratoServiceImpl implements ExtratoService {
 	public List<CompraDTO> buscaExtrato(Long id, int mes, int ano) {
 			
 		
-		Cliente cliente = clienteRepository
+		clienteRepository
 				.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente nao encontrado"));
 				

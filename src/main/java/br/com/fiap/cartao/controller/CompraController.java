@@ -14,9 +14,11 @@ import br.com.fiap.cartao.dto.CompraDTO;
 import br.com.fiap.cartao.dto.CreateCompraDTO;
 import br.com.fiap.cartao.service.CompraService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("compras")
+@Tag(name = "/compras", description = "Informa compras e estornos em cartões FIAP")
 public class CompraController {
 
 	private CompraService compraService;
