@@ -1,5 +1,3 @@
-drop table COMPRAS if exists;
-
 create table COMPRAS(
 	"ID" BIGINT AUTO_INCREMENT PRIMARY KEY, 
 	"CLIENTE_ID" BIGINT NOT NULL,

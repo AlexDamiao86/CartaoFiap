@@ -16,10 +16,9 @@ A aplicação está dividida em dois repositórios no GITHUB:
 
 - A aplicação irá ler o arquivo lista_alunos.txt que está na pasta src/main/resources/lista_alunos.txt. Os dados de nome e matrícula do aluno contidos neste arquivo serão persistidos na tabela CLIENTES.
 
-> **_NOTA 1:_** A execução dessa aplicação prepará a execução da aplicação web. Todos os dados previamente criados, alterados ou excluídos na aplicação web irão voltar a configuração inicial.  
+> **_NOTA 1:_** Essa aplicação deverá ser executada antes da aplicação web para popular a tabela CLIENTES.
 
-> **_NOTA 2:_** Essa aplicação deverá ser executada antes da aplicação web para popular a tabela CLIENTES.
-
+> **_NOTA 2:_** Cada execução dessa aplicação irá adicionar novamente os clientes do arquivo lista_alunos.txt
 
 2) [Aplicação Spring Boot Web](https://github.com/AlexDamiao86/CartaoFiap.git) - Disponibiliza endpoints para manutenção de cadastro de clientes, recebimento de transações realizadas nos cartões, consulta extratos dos cartões. 
 
@@ -32,7 +31,7 @@ A aplicação está dividida em dois repositórios no GITHUB:
 ![MER](src/main/resources/images/mer-endpoints.png)
 
 
-> **_NOTA 3:_** Ao iniciar a aplicação web se recria a tabela COMPRAS e nova massa de teste de transações é gerada -- 15.000 registros de transações autorizadas para clientes com identificador entre 1.000 e 3.000 com data de compra entre 01/01/2022 e 17/07/2022. 
+> **_NOTA 3:_** A cada execução dessa aplicação nova massa de teste de transações é adicionada -- 15.000 registros de transações autorizadas para clientes com identificador entre 1.000 e 3.000 com data de compra entre 01/01/2022 e 17/07/2022. 
 
 > **_NOTA 4:_** Para ser possível manter a integridade com a tabela CLIENTES é necessário executar primeiramente a [aplicação Batch](#batch)
 
@@ -49,6 +48,7 @@ A aplicação está dividida em dois repositórios no GITHUB:
 - [Github (Controle de versão)](https://github.com)
 - [H2](https://www.h2database.com)
 - [Swagger](http://swagger.io)
+- [Flyway](https://flywaydb.org)
 
 
 ## ⚙️ Como executar o projeto
