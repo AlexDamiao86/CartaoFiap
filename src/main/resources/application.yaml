@@ -13,7 +13,6 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: false
-    
   h2:
     console: 
       enabled: true
@@ -21,10 +20,19 @@ spring:
     multipart:
       max-file-size: 30MB
       max-request-size: 30MB
+  security: 
+    user: 
+      password: password
+      name: admin
+      roles: ADMIN
       
 springdoc:
   api-docs:
     path: /api-docs  
+    
+jwt: 
+  secret: F14P
+  expiration: 3
     
     
     
