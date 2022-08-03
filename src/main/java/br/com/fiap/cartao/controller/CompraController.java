@@ -14,6 +14,7 @@ import br.com.fiap.cartao.dto.CompraDTO;
 import br.com.fiap.cartao.dto.CreateCompraDTO;
 import br.com.fiap.cartao.service.CompraService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -31,6 +32,7 @@ public class CompraController {
 			summary = "Informa a compra autorizada no Cartão FIAP", 
 			description = "Recebe identificador cliente, valor, data da compra autorizada no Cartão FIAP"
 			)
+	@SecurityRequirement(name = "Bearer Authentication")
 	@PostMapping(
 			produces = {
 					MediaType.APPLICATION_JSON_VALUE,

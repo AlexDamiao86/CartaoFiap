@@ -1,10 +1,19 @@
 package br.com.fiap.cartao.configuration;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
+
+@SecurityScheme(
+		name = "Bearer Authentication", 
+		type = SecuritySchemeType.HTTP, 
+		bearerFormat = "JWT",
+		scheme = "bearer",
+		description = "Um token JWT é obrigatório para executar algumas operações dessa API")
 @OpenAPIDefinition(
 		info = @Info(
 				title = "Cartão FIAP APIs",
