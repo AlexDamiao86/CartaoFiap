@@ -13,7 +13,8 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 		type = SecuritySchemeType.HTTP, 
 		bearerFormat = "JWT",
 		scheme = "bearer",
-		description = "Um token JWT é obrigatório para executar algumas operações dessa API")
+		description = "Um token JWT é obrigatório para executar algumas operações dessa API. " +
+		   "Este token poderá ser obtido através da operação /usuarios/login")
 @OpenAPIDefinition(
 		info = @Info(
 				title = "Cartão FIAP APIs",
