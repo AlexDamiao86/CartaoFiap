@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("compras")
+@SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "/compras", description = "Informa compras e estornos em cartões FIAP")
 public class CompraController {
 
@@ -32,7 +33,6 @@ public class CompraController {
 			summary = "Informa a compra autorizada no Cartão FIAP", 
 			description = "Recebe identificador cliente, valor, data da compra autorizada no Cartão FIAP"
 			)
-	@SecurityRequirement(name = "Bearer Authentication")
 	@PostMapping(
 			produces = {
 					MediaType.APPLICATION_JSON_VALUE,

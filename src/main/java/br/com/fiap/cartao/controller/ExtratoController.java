@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.fiap.cartao.dto.CompraDTO;
 import br.com.fiap.cartao.service.ExtratoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("extrato")
+@SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "/extrato", description = "Emite extratos de cartões FIAP")
 public class ExtratoController {
 

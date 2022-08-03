@@ -19,10 +19,12 @@ import br.com.fiap.cartao.dto.ClienteDTO;
 import br.com.fiap.cartao.dto.CreateUpdateClienteDTO;
 import br.com.fiap.cartao.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("clientes")
+@SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "/clientes", description = "Gerencia clientes cartões FIAP")
 public class ClienteController {
 

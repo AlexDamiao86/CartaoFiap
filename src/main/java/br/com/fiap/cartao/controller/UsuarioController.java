@@ -10,9 +10,11 @@ import br.com.fiap.cartao.dto.CreateUsuarioDTO;
 import br.com.fiap.cartao.dto.TokenDTO;
 import br.com.fiap.cartao.dto.UsuarioDTO;
 import br.com.fiap.cartao.service.UsuarioService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/usuarios")
+@Tag(name = "/usuarios", description = "Cria e autentica usuarios API Cartão FIAP")
 public class UsuarioController {
 	
 	private UsuarioService usuarioService;
