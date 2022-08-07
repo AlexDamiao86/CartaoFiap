@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class CreateUsuarioDTO {
 	
-	private String nome; 
+	private String email; 
 	private String senha;
 
 }

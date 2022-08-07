@@ -43,7 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	@Override
 	protected AuthenticationManager authenticationManager() throws Exception {
-		// TODO Auto-generated method stub
 		return super.authenticationManager();
 	}
 
@@ -57,7 +56,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.httpBasic()
 			.and()
 			.authorizeRequests()
-			.antMatchers("/usuarios/**").permitAll()
+			.antMatchers("/usuarios/login").permitAll()
+			.antMatchers("/usuarios/**").hasRole("GESTOR")
+			.antMatchers("/compras/**").hasRole("ADMIN_CARTAO")
+			.antMatchers("/clientes/**").hasRole("GESTOR")
+			.antMatchers("/extrato/**").hasRole("ALUNO")
 			.anyRequest().authenticated()
 			.and()
 			.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)

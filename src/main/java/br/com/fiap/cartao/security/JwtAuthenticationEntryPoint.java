@@ -19,7 +19,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 						 HttpServletResponse response,
 						 AuthenticationException authException) 
 								 throws IOException, ServletException {
-		response.sendError(HttpStatus.UNAUTHORIZED.value(), "Authorization.error");
+		response.sendError(HttpStatus.UNAUTHORIZED.value(), "JWT Token required");
 		
 	}
 

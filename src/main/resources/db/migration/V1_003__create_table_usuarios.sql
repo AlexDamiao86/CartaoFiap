@@ -1,7 +1,15 @@
 create table USUARIOS(
-	id int auto_increment primary key, 
-	nome varchar(100),
-	senha varchar(100),
-	data_criacao timestamp not null, 
-	data_alteracao timestamp not null
+	"ID" BIGINT AUTO_INCREMENT PRIMARY KEY, 
+	"EMAIL" VARCHAR(100) NOT NULL, 
+	"SENHA" VARCHAR(100) NOT NULL, 
+	"CLIENTE_ID" BIGINT NULL,
+	"DATA_CRIACAO" TIMESTAMP NOT NULL, 
+	"DATA_ALTERACAO" TIMESTAMP NOT NULL
 );
+
+alter table USUARIOS
+add constraint EMAIL_UNIQUE unique ("EMAIL");
+
+alter table USUARIOS
+add foreign key ("CLIENTE_ID") references CLIENTES("ID");
+

@@ -34,7 +34,6 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column
 	private String nome;
 	private int matricula;
 	@Column(name = "data_cadastro", nullable = false, updatable = false)

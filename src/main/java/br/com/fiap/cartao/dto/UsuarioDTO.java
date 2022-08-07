@@ -6,12 +6,12 @@ import lombok.Getter;
 @Getter
 public class UsuarioDTO {
 	
-	private Integer id; 
-	private String nome;
+	private Long id; 
+	private String username;
 	
 	public UsuarioDTO(Usuario usuario) {
 		this.id = usuario.getId();
-		this.nome = usuario.getNome();
+		this.username = usuario.getUsername();
 	}
 
 }

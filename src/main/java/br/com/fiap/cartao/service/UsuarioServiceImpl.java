@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public UsuarioDTO create(CreateUsuarioDTO createUsuarioDTO) {
 		Usuario usuario = new Usuario(
-				createUsuarioDTO.getNome(), 
+				createUsuarioDTO.getEmail(), 
 				passwordEncoder.encode(createUsuarioDTO.getSenha())
 				);
 		Usuario novoUsuario = usuarioRepository.save(usuario);
@@ -50,18 +51,22 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public TokenDTO login(AuthDTO authDTO) {
+		
+		String token = null; 
+		
 		try {
-			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(authDTO.getNome(), authDTO.getSenha()));
+			Authentication authentication = authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(authDTO.getEmail(), authDTO.getSenha()));			
+		
+			token = jwtTokenUtils.generateToken(authentication);
+		
 		} catch (DisabledException disabledException) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "user.disabled");
 		} catch (BadCredentialsException badCredentialsException) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid.credentials");
 		} catch (AuthenticationException e) {
-			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "authentication.failed"); 
 		}
-		
-		String token = jwtTokenUtils.generateToken(authDTO.getNome());
 		
 		return new TokenDTO(token);
 	}
