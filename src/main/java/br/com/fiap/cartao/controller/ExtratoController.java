@@ -42,16 +42,15 @@ public class ExtratoController {
 			description = "Recebe o identificador do cliente para devolver as compras pendentes de pagamento (extrato) do mês atual"
 			)
 	@GetMapping(
-			path = "{id}",
 			produces = {
 					MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE
 			})
-	public List<CompraDTO> geraExtratos(@PathVariable("id") Long id) {
-		return dadosExtrato(id);
+	public List<CompraDTO> geraExtratos() {
+		return dadosExtrato();
 	}
 	
-	private List<CompraDTO> dadosExtrato(Long id) {
+	private List<CompraDTO> dadosExtrato() {
 		//Getting the current date value
 	      LocalDate currentdate = LocalDate.now();
 	      //Getting the current month
@@ -59,24 +58,23 @@ public class ExtratoController {
 	      //getting the current year
 	      int currentYear = currentdate.getYear();
 	      
-		return (List<CompraDTO>) extratoService.buscaExtrato(id,currentMonth, currentYear);
+		return (List<CompraDTO>) extratoService.getByMonthAndYear(currentMonth, currentYear);
 	}
 	
-	private List<CompraDTO> dadosExtratoMesAnterior(Long id, int mes, int ano) {
-		return (List<CompraDTO>) extratoService.buscaExtrato(id,mes, ano);
+	private List<CompraDTO> dadosExtratoMesAnterior(int mes, int ano) {
+		return (List<CompraDTO>) extratoService.getByMonthAndYear(mes, ano);
 	}
 	
 	@Operation(
 			summary = "Pesquisa compras pendentes de pagamento no Cartão FIAP no mês/ano indicado", 
 			description = "Informe um identificador de cliente, um mês e um ano Ex: extrato/1/7/2022"
 			)
-	@GetMapping("{id}/{mes}/{ano}")
+	@GetMapping("{mes}/{ano}")
 	public List<CompraDTO> geraExtratos(
-			@PathVariable("id") Long id,
 			@PathVariable("mes") int mes,
 			@PathVariable("ano") int ano) {
 		
-		return (List<CompraDTO>) extratoService.buscaExtrato(id,mes,ano);
+		return (List<CompraDTO>) extratoService.getByMonthAndYear(mes,ano);
 
 	}
 	
@@ -85,19 +83,19 @@ public class ExtratoController {
 			description = "Baixa arquivo com as compras realizadas no mês e o saldo devedor"
 			)
 	@GetMapping(
-			  value = "/arquivo/{id}",
+			  value = "/arquivo",
 			  produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
 			)
-			public @ResponseBody byte[] getArquivoExtratoAtual(@PathVariable("id") long id) throws IOException {
+			public @ResponseBody byte[] getArquivoExtratoAtual() throws IOException {
 				
 				
-				String nomeArquivo = "/tmp/extrato"+id+".cvs";
+				String nomeArquivo = "/tmp/extrato.cvs";
 				
 				
 			    BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo));
 			    writer.append("Data,valor\n");
 			    BigDecimal total = BigDecimal.ZERO; 
-				for (CompraDTO compra : dadosExtrato(id)) {
+				for (CompraDTO compra : dadosExtrato()) {
 				    writer.append(compra.toCSV());
 				    total =total.add(compra.getValorCompra());
 				}
@@ -117,22 +115,21 @@ public class ExtratoController {
 			description = "Recebe o identificador do cliente e o mês/ano para baixar arquivo com compras realizadas. Ex.: extrato/arquivo/1/6/2022"
 			)
 	@GetMapping(
-			  value = "/arquivo/{id}/{mes}/{ano}",
+			  value = "/arquivo/{mes}/{ano}",
 			  produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
 			)
 			public @ResponseBody byte[] getArquivoExtratoAnterior(
-					@PathVariable("id") long id,
 					@PathVariable("mes") int mes,
 					@PathVariable("ano") int ano) throws IOException {
 				
 				
-				String nomeArquivo = "/tmp/extrato"+id+".cvs";
+				String nomeArquivo = "/tmp/extrato.cvs";
 				
 				
 			    BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo));
 			    writer.append("Data,valor\n");
 			    BigDecimal total = BigDecimal.ZERO; 
-				for (CompraDTO compra : dadosExtratoMesAnterior(id,mes, ano)) {
+				for (CompraDTO compra : dadosExtratoMesAnterior(mes, ano)) {
 				    writer.append(compra.toCSV());
 				    total =total.add(compra.getValorCompra());
 				}

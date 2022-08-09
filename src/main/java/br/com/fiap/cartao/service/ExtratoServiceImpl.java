@@ -26,22 +26,31 @@ public class ExtratoServiceImpl implements ExtratoService {
 	
 	private CompraRepository compraRepository;
 	private ClienteRepository clienteRepository;
+	private AutenticacaoService autenticacaoService;
 	
 	public ExtratoServiceImpl(
 			CompraRepository compraRepository,
-			ClienteRepository clienteRepository
+			ClienteRepository clienteRepository,
+			AutenticacaoService autenticacaoService
 			) {
 		this.compraRepository = compraRepository;
 		this.clienteRepository = clienteRepository;
+		this.autenticacaoService = autenticacaoService;
 	}
-
 	
 	@Override
-	public List<CompraDTO> buscaExtrato(Long id, int mes, int ano) {
+	public List<CompraDTO> listAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<CompraDTO> getByMonthAndYear(int mes, int ano) {
 			
+		Long idCliente = autenticacaoService.getIdClienteByUsername();
 		
 		clienteRepository
-				.findById(id)
+				.findById(idCliente)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente nao encontrado"));
 				
 		//informa o mes do extrato
@@ -52,9 +61,10 @@ public class ExtratoServiceImpl implements ExtratoService {
 		LocalDate dataInicio = mesInformado.with(TemporalAdjusters.firstDayOfMonth());
 		//pega o dia último dia do mes/ano informado
 		LocalDate dataFim = mesInformado.with(TemporalAdjusters.lastDayOfMonth());
+		System.out.println("idCliente:"+idCliente);
 		System.out.println("dataInicio:"+dataInicio);
 		System.out.println("dataFim:"+dataFim);
-		List<Compra> compras = compraRepository.findByCliente_idAndDataBetweenAndSituacao(id,dataInicio, dataFim,SituacaoCompra.AUTORIZADA);
+		List<Compra> compras = compraRepository.findByCliente_idAndDataBetweenAndSituacao(idCliente,dataInicio, dataFim,SituacaoCompra.AUTORIZADA);
 		List<CompraDTO> extrato = new ArrayList<CompraDTO>();
 		for (Compra compra : compras) {
 			extrato.add(new CompraDTO(compra));
@@ -77,6 +87,5 @@ public class ExtratoServiceImpl implements ExtratoService {
 	      throw new RuntimeException("Error: " + e.getMessage());
 	    }
 	  }
-
 
 }
