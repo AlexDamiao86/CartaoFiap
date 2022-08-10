@@ -44,6 +44,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 				createUsuarioDTO.getEmail(), 
 				passwordEncoder.encode(createUsuarioDTO.getSenha())
 				);
+
 		Usuario novoUsuario = usuarioRepository.save(usuario);
 		
 		return new UsuarioDTO(novoUsuario);

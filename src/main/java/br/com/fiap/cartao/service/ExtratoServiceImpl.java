@@ -39,12 +39,6 @@ public class ExtratoServiceImpl implements ExtratoService {
 	}
 	
 	@Override
-	public List<CompraDTO> listAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
 	public List<CompraDTO> getByMonthAndYear(int mes, int ano) {
 			
 		Long idCliente = autenticacaoService.getIdClienteByUsername();

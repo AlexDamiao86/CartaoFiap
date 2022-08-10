@@ -9,7 +9,6 @@ import br.com.fiap.cartao.dto.CompraDTO;
 public interface ExtratoService {
 
 	List<CompraDTO> getByMonthAndYear(int mes, int ano);
-	List<CompraDTO> listAll();
 	Resource load(String filename);
 	
 }

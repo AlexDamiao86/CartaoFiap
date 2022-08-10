@@ -85,7 +85,7 @@ class ExtratoApplicationTests {
 		compraController.cancel(idCompras);
 		
 		//deve retornar somente 1 compra com o status SituacaoCompra.AUTORIZADA
-		List<CompraDTO> compras = extratoController.geraExtratos(cliente.getIdentificador());
+		List<CompraDTO> compras = extratoController.geraExtratos();
 		
 		//verifica se somente 1 compra foi retornada
 		assertEquals(compras.size(), 1);
@@ -144,7 +144,7 @@ class ExtratoApplicationTests {
 		System.out.println("id compra inserida: "+idCompras);
 		
 		//deve retornar somente 1 compra com o status SituacaoCompra.AUTORIZADA
-		List<CompraDTO> compras = extratoController.geraExtratos(cliente.getIdentificador(), 7, 2022);
+		List<CompraDTO> compras = extratoController.geraExtratos(7, 2022);
 		
 		//verifica se somente 1 compra foi retornada
 		assertEquals(compras.size(), 2);
