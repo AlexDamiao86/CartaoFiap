@@ -4,4 +4,4 @@ USER spring:spring
 VOLUME /tmp
 ARG JAR_FILE
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java",”-Xmx512m”,"-jar","/app.jar"]
