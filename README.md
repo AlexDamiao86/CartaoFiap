@@ -12,7 +12,7 @@ A aplicação está dividida em dois repositórios no GITHUB:
 
 1) [Aplicação Spring Boot Web](https://github.com/AlexDamiao86/CartaoFiap.git) - Disponibiliza endpoints para manutenção de cadastro de clientes, recebimento de transações realizadas nos cartões (compra/estorno), consulta extratos dos cartões. 
 
-2) [Aplicação Angular](https://github.com/FabioQuimico/Fintap-Front.git) - Aplicação frontend que consome API Rest CartaoFiap. Autentica um usuário aluno e mostra o extrato do aluno autenticado.
+2) [Aplicação Angular](https://github.com/FabioQuimico/WebServicesFront.git) - Aplicação frontend desenvolvida em Angular que consome API Rest CartaoFiap (Aplicação Spring Boot Web). Autentica um usuário aluno e mostra o extrato do aluno autenticado.
 
 ### Visão Geral da API
 ![Visão Geral do Sistema](src/main/resources/images/visao_geral_webservices.png)
@@ -22,11 +22,9 @@ A API possui controle de acesso implementado através do Spring Security utiliza
 - GESTOR - Permite a manutenção do cadastro de clientes. 
 - ADMIN_CARTAO - Permite informar compras autorizadas e compras estornadas do cliente cartão FIAP.  
 
-Para utilizar qualquer um dos endpoints disponíveis na API deverá ser feita primeiramente a autenticação do usuário através do endpoint (/usuarios/login). 
+Para chamar qualquer um dos endpoints disponíveis na API deverá ser feita primeiramente a autenticação do usuário através do endpoint (/usuarios/login). Segue na nota 1 abaixo, uma relação de e-mail/senha que poderá servir como entrada para requisição do endpoint de autenticação. 
 
-Disponibilizamos o projeto da API através do Heroku no domínio https://cartao-fiap.herokuapp.com/. 
-
-Pode se interagir com o webservice através do [Swagger](https://cartao-fiap.herokuapp.com/swagger-ui/index.html) - https://cartao-fiap.herokuapp.com/swagger-ui/index.html
+Disponibilizamos o projeto da API através do Heroku no domínio https://cartao-fiap.herokuapp.com/. É possivel interagir com o webservice através do [Swagger](https://cartao-fiap.herokuapp.com/swagger-ui/index.html) - https://cartao-fiap.herokuapp.com/swagger-ui/index.html
 
 > **_NOTA 1:_** Criamos uma pequena massa de testes para possibilitar o teste da aplicação. Existem usuários cadastrados para cada um dos perfis de usuário. São eles: 
 > - Perfil Aluno:
@@ -64,7 +62,7 @@ Pode se interagir com o webservice através do [Swagger](https://cartao-fiap.her
 
 > **_NOTA 2:_** Esse passo não é necessário para rodar a aplicação cliente, pois esta aplicação foi configurada para consumir os endpoints diretamente do domínio do Heroku. 
 
-Como informado acima, o projeto do webservice foi publicado no Heroku. No entanto, se desejar o projeto da API localmente deverá proceder os seguintes passos: 
+Como informado acima, o projeto do webservice foi publicado no Heroku. No entanto, se desejar rodar o projeto da API localmente deverá proceder os seguintes passos: 
 
 1. Clonar projeto Spring Web do GitHub: 
 ~~~bash
@@ -96,10 +94,14 @@ Para executar a aplicação frontend que consome a API:
 
 1. Clonar projeto Angular no GitHub: 
 ~~~bash
-git clone https://github.com/FabioQuimico/Fintap-Front.git
+git clone https://github.com/FabioQuimico/WebServicesFront.git
 ~~~
 2. Importar o projeto na sua IDE de preferência (sugerido VSCode). 
-3. Executar o comando.
+3. Executar os comandos abaixo para carregar dependências e abrir página:
+~~~bash
+npm install
+ng serve --open
+~~~
 
 
 ## 👨🏽‍💻 Desenvolvedores
