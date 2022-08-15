@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.cartao.dto.ClienteDTO;
 import br.com.fiap.cartao.dto.CreateUpdateClienteDTO;
+import br.com.fiap.cartao.service.AutenticacaoService;
 import br.com.fiap.cartao.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+@CrossOrigin
 @RestController
 @RequestMapping("clientes")
 @SecurityRequirement(name = "Bearer Authentication")
@@ -29,9 +32,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class ClienteController {
 
 	private ClienteService clienteService;
+	private AutenticacaoService autenticacaoService;
 	
-	public ClienteController(ClienteService clienteService) {
+	public ClienteController(ClienteService clienteService, 
+			AutenticacaoService autenticacaoService) {
 		this.clienteService = clienteService;
+		this.autenticacaoService = autenticacaoService;
 	}
 	
 	@Operation(
@@ -66,7 +72,7 @@ public class ClienteController {
 	
 	@Operation(
 			summary = "Consulta um cliente do cartão FIAP", 
-			description = "Consulta um cliente do cartão FIAP através do identificador do Cliente"
+			description = "Consulta um cliente do cartão FIAP através do identificador do Cliente (através de usuário GESTOR). Permite acesso do ALUNO logado para recuperar dados de seu cadastro como cliente (desconsidera {id} informado e recupera {id} do aluno logado). "
 			)
 	@GetMapping(
 			path = "{id}", 
@@ -75,6 +81,14 @@ public class ClienteController {
 					MediaType.APPLICATION_XML_VALUE
 			})
 	public ClienteDTO findById(@PathVariable Long id) {
+		
+		if (autenticacaoService.getAuthentication().isAuthenticated()) {
+			Long idCliente = autenticacaoService.getIdClienteByUsername();
+			if (idCliente != null && idCliente > 0) {
+				id = idCliente;
+			}
+		}
+		
 		return clienteService.findbyId(id);
 	}
 	

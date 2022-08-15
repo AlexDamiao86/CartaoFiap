@@ -1,5 +1,6 @@
 package br.com.fiap.cartao.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/usuarios")
 @Tag(name = "/usuarios", description = "Cria e autentica usuarios API Cartão FIAP")

@@ -1,5 +1,7 @@
 package br.com.fiap.cartao.security;
 
+import java.util.Optional;
+
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,12 +22,12 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Usuario usuario = usuarioRepository.findByEmail(username);
+		Optional<Usuario> usuario = usuarioRepository.findByEmail(username);
 		
-		if (usuario == null) {
+		if (!usuario.isPresent()) {
 			throw new UsernameNotFoundException("User not found with e-mail: " + username);
 		}
-		return new User(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities());
+		return new User(usuario.get().getUsername(), usuario.get().getPassword(), usuario.get().getAuthorities());
 	}
 
 }
