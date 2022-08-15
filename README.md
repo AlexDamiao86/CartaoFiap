@@ -10,69 +10,97 @@ Trata-se de um sistema para gerenciar movimentação e cadastramento de alunos q
 
 A aplicação está dividida em dois repositórios no GITHUB: 
 
-<a name="batch"></a>
-1) [Aplicação Spring Batch](https://github.com/AlexDamiao86/CartaoFiapBatch.git) - Realiza carregamento de dados iniciais dos possíveis clientes do cartão FIAP. 
-![Leitura arquivo lista_alunos.txt](src/main/resources/images/batch.png)
+1) [Aplicação Spring Boot Web](https://github.com/AlexDamiao86/CartaoFiap.git) - Disponibiliza endpoints para manutenção de cadastro de clientes, recebimento de transações realizadas nos cartões (compra/estorno), consulta extratos dos cartões. 
 
-- A aplicação irá ler o arquivo lista_alunos.txt que está na pasta src/main/resources/lista_alunos.txt. Os dados de nome e matrícula do aluno contidos neste arquivo serão persistidos na tabela CLIENTES.
+2) [Aplicação Angular](https://github.com/FabioQuimico/Fintap-Front.git) - Aplicação frontend que consome API Rest CartaoFiap. Autentica um usuário aluno e mostra o extrato do aluno autenticado.
 
-> **_NOTA 1:_** Essa aplicação deverá ser executada antes da aplicação web para popular a tabela CLIENTES.
+### Visão Geral da API
+![Visão Geral do Sistema](src/main/resources/images/visao_geral_webservices.png)
 
-> **_NOTA 2:_** Cada execução dessa aplicação irá adicionar novamente os clientes do arquivo lista_alunos.txt
+A API possui controle de acesso implementado através do Spring Security utilizando JWT Token. Existem três perfis de usuário: 
+- ALUNO - Permite a emissão de extrato, consulta do próprio cadastro. 
+- GESTOR - Permite a manutenção do cadastro de clientes. 
+- ADMIN_CARTAO - Permite informar compras autorizadas e compras estornadas do cliente cartão FIAP.  
 
-2) [Aplicação Spring Boot Web](https://github.com/AlexDamiao86/CartaoFiap.git) - Disponibiliza endpoints para manutenção de cadastro de clientes, recebimento de transações realizadas nos cartões, consulta extratos dos cartões. 
+Para utilizar qualquer um dos endpoints disponíveis na API deverá ser feita primeiramente a autenticação do usuário através do endpoint (/usuarios/login). 
 
-- Após iniciar a aplicação será possível interagir com ela através do [Swagger](http://localhost:8081/swagger-ui/index.html#/). Veja pela documentação Swagger os dados de requsição e resposta das operações disponibilizadas. 
+Disponibilizamos o projeto da API através do Heroku no domínio https://cartao-fiap.herokuapp.com/. 
 
-#### Visão Geral
-![Visão Geral do Sistema](src/main/resources/images/visao_geral.png)
+Pode se interagir com o webservice através do [Swagger](https://cartao-fiap.herokuapp.com/swagger-ui/index.html) - https://cartao-fiap.herokuapp.com/swagger-ui/index.html
 
-#### Modelo Entidade Relacionamento (Endpoints)
+> **_NOTA 1:_** Criamos uma pequena massa de testes para possibilitar o teste da aplicação. Existem usuários cadastrados para cada um dos perfis de usuário. São eles: 
+> - Perfil Aluno:
+>   - E-mail: aluno@fiap.com.br / Senha: 123456
+>   - E-mail: aluno2@fiap.com.br / Senha: 123456
+> - Perfil Gestor: 
+>   - E-mail: gestor@fiap.com.br / Senha: 123456
+> - Perfil Administradora Cartão: 
+>   - E-mail: autoriza@visa.com.br / Senha: 123456
+
+
+### Modelo Entidade Relacionamento (Endpoints)
 ![MER](src/main/resources/images/mer-endpoints.png)
-
-
-> **_NOTA 3:_** A cada execução dessa aplicação nova massa de teste de transações é adicionada -- 15.000 registros de transações autorizadas para clientes com identificador entre 1.000 e 3.000 com data de compra entre 01/01/2022 e 17/07/2022. 
-
-> **_NOTA 4:_** Para ser possível manter a integridade com a tabela CLIENTES é necessário executar primeiramente a [aplicação Batch](#batch)
 
 ## 🛠️ Tecnologias utilizadas
 
-- Linguagem Java (versão 11)
+- Linguagem Java (versão 1.8)
 - [Spring Framework](https://spring.io)
   - [Spring Initializr](https://start.spring.io)
   - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
   - [Spring Boot Web](https://spring.io/projects/spring-boot)
-  - [Spring Batch](https://spring.io/projects/spring-batch)
   - [Spring REST Doc](https://spring.io/projects/spring-restdocs)
+  - [Spring Security](https://spring.io/projects/spring-security)
 - [Gradle (Gerenciador de dependências)](https://gradle.org)
 - [Github (Controle de versão)](https://github.com)
+- [Docker](https://www.docker.com)
+- [Heroku](https://heroku.com)
 - [H2](https://www.h2database.com)
 - [Swagger](http://swagger.io)
 - [Flyway](https://flywaydb.org)
 
-
 ## ⚙️ Como executar o projeto
 
-> **_NOTA 5:_** (Apenas na primeira vez da execução) O banco de dados utilizado será o H2 e estará armazenado no seguinte caminho do computador ~/fiapdb/cartao-fiap. Se a pasta/arquivo já existirem, favor deletá-los antes de executar os próximos passos.
+### Rodando o webservice 
 
-1. Clonar projeto Spring Batch do GitHub:
-~~~bash
-git clone https://github.com/AlexDamiao86/CartaoFiapBatch.git
-~~~
-2. Importar o projeto na sua IDE de preferência (atualizar o build.gradle). 
-3. Executar o arquivo /src/main/java/CartaoBatchApplication.java.
+> **_NOTA 2:_** Esse passo não é necessário para rodar a aplicação cliente, pois esta aplicação foi configurada para consumir os endpoints diretamente do domínio do Heroku. 
 
-4. Clonar projeto Spring Web do GitHub: 
+Como informado acima, o projeto do webservice foi publicado no Heroku. No entanto, se desejar o projeto da API localmente deverá proceder os seguintes passos: 
+
+1. Clonar projeto Spring Web do GitHub: 
 ~~~bash
 git clone https://github.com/AlexDamiao86/CartaoFiap.git
 ~~~
-5. Importar o projeto na sua IDE de preferência (atualizar o build.gradle). 
-6. Executar o arquivo /src/main/java/CartaoApplication.java.
+2. Importar o projeto na sua IDE de preferência (atualizar o build.gradle).
+3. Configurar variáveis de ambiente na sua IDE de preferência. Exemplo: 
+~~~yaml
+PORT=8081
+DATASOURCE_URL=jdbc:h2:~/fiapdb/cartao-fiap
+DATASOURCE_USERNAME=fiap
+DATASOURCE_PASSWORD=fiap
+JWT_SECRET=F14P
+JWT_EXPIRATION_MINUTES=5
+~~~
+4. Executar o arquivo /src/main/java/CartaoApplication.java.
 
-7. Interagir na aplicação através do [Swagger](http://localhost:8081/swagger-ui/index.html#/).
-8. Possibilidade de visualizar os dados no [h2-console](http://localhost:8081/h2-console/).
+Alternativamente, pode-se substituir os passos 1 a 4 pela execução do container Docker (exige Docker em execução) através do seguinte comando no terminal: 
+~~~bash
+docker run -p 8081:8081 -e PORT='8081' -e DATASOURCE_URL='jdbc:h2:~/fiapdb/cartao-fiap' -e DATASOURCE_USERNAME='fiap' -e DATASOURCE_PASSWORD='fiap' -e JWT_SECRET='F14P' -e JWT_EXPIRATION_MINUTES='5' alexdamiao86/cartao
+~~~
 
-> **_NOTA 6:_** Existe uma massa de testes relativamente grande tanto de CLIENTES como COMPRAS. A visualização dos dados da base no h2-console permite confirmar isso. Exemplo: Pode ser utilizado o identificador do cliente 1969 para consultar extrato no mês atual, no mês de 04/2022.
+5. Interagir na aplicação através do [Swagger](http://localhost:8081/swagger-ui/index.html#/).
+6. Possibilidade de visualizar os dados no [h2-console](http://localhost:8081/h2-console/).
+
+### Rodando a aplicação cliente
+
+Para executar a aplicação frontend que consome a API: 
+
+1. Clonar projeto Angular no GitHub: 
+~~~bash
+git clone https://github.com/FabioQuimico/Fintap-Front.git
+~~~
+2. Importar o projeto na sua IDE de preferência (sugerido VSCode). 
+3. Executar o comando.
+
 
 ## 👨🏽‍💻 Desenvolvedores
 
@@ -80,5 +108,6 @@ git clone https://github.com/AlexDamiao86/CartaoFiap.git
 | :---: | :---: | :---: | :---: |
 
 >
->Projeto realizado como requisito para conclusão da disciplina Spring do MBA Full Stack Development - FIAP 2022
->Prof. Fabio Tadashi Miyasato (https://github.com/fabiotadashi)
+>Projeto realizado como requisito para conclusão da disciplina WebServices do MBA Full Stack Development - FIAP 2022
+>
+>[Prof. Eduardo Galego](https://github.com/prof-eduardo-galego)
