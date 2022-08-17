@@ -15,8 +15,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.cartao.controller.ClienteController;
+import br.com.fiap.cartao.controller.UsuarioController;
+import br.com.fiap.cartao.dto.AuthDTO;
 import br.com.fiap.cartao.dto.ClienteDTO;
 import br.com.fiap.cartao.dto.CreateUpdateClienteDTO;
+import br.com.fiap.cartao.dto.TokenDTO;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
@@ -27,13 +30,34 @@ class ClienteApplicationTests {
 	
 	@InjectMocks
 	CreateUpdateClienteDTO createUpdateClienteDTO;
+
+	@Autowired
+	UsuarioController usuarioController;
+
+
+	@InjectMocks
+	AuthDTO authDTO;
 	
 	private final String NOME_CLIENTE_TESTE_UPDATED = "TesteSpring UPDATED";
 	private final String NOME_CLIENTE_TESTE = "TesteSpring";
 	private Long idCliente = 0l;
 	
+
 	@Test
 	@Order(1)
+	public void login() {
+		System.out.println("Login");
+		
+		authDTO.setEmail("gestor@fiap.com.br");
+		authDTO.setSenha("123456");
+
+		TokenDTO token = usuarioController.login(authDTO);
+		
+		System.out.println(token);
+	}
+
+	@Test
+	@Order(2)
 	public void insertCliente() {
 		System.out.println("insertCliente");
 		createUpdateClienteDTO.setMatricula(0);
@@ -46,7 +70,7 @@ class ClienteApplicationTests {
 	}
 
 	@Test
-	@Order(2)
+	@Order(3)
 	public void updateCliente() {
 		
 		
@@ -74,7 +98,7 @@ class ClienteApplicationTests {
 	}
 	
 	@Test
-	@Order(3)
+	@Order(4)
 	public void deleteCliente() {
 		
 		List<ClienteDTO> clientes = clienteController.listClientes(NOME_CLIENTE_TESTE_UPDATED);
