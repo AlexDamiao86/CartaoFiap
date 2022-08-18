@@ -58,16 +58,17 @@ Aplicação API:
 - [H2](https://www.h2database.com)
 - [Swagger](http://swagger.io)
 - [Flyway](https://flywaydb.org)
+
 Aplicação Cliente (Angular):
 - [Angular](https://angular.io)
 - [Node](https://nodejs.org/)
 - [Heroku](https://heroku.com)
 
-## ⚙️ Como executar o projeto
+## ⚙️ Como executar o projeto localmente
 
 ### Rodando o webservice 
 
-> **_NOTA 2:_** Esse passo não é necessário para rodar a aplicação cliente, pois esta aplicação foi configurada para consumir os endpoints diretamente do domínio do Heroku. 
+> **_NOTA 2:_** Esse passo não é necessário para rodar a aplicação cliente localmente, pois a aplicação web foi configurada para consumir os endpoints diretamente do domínio publicado no Heroku. 
 
 Como informado acima, o projeto do webservice foi publicado no Heroku. No entanto, se desejar rodar o projeto da API localmente deverá proceder os seguintes passos: 
 
@@ -98,8 +99,6 @@ docker run -p 8081:8081 -e PORT='8081' -e DATASOURCE_URL='jdbc:h2:~/fiapdb/carta
 ### Rodando a aplicação cliente
 
 O projeto web foi publicado no Heroku através do endereço - https://fintap-web.herokuapp.com. No entanto, se desejar rodar a aplicação cliente localmente deverá proceder os seguintes passos: 
-
-Para executar a aplicação frontend que consome a API: 
 
 1. Clonar projeto Angular no GitHub (terminal): 
 ~~~bash
