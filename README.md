@@ -14,7 +14,7 @@ A aplicação está dividida em dois repositórios no GITHUB:
 
 2) [Aplicação Angular](https://github.com/FabioQuimico/WebServicesFront.git) - Aplicação frontend desenvolvida em Angular que consome API Rest CartaoFiap (Aplicação Spring Boot Web). Autentica um usuário aluno e mostra o extrato do aluno autenticado.
 
-### Visão Geral da API
+### Visão Geral das Aplicações
 ![Visão Geral do Sistema](src/main/resources/images/visao_geral_webservices.png)
 
 A API possui controle de acesso implementado através do Spring Security utilizando JWT Token. Existem três perfis de usuário: 
@@ -25,6 +25,8 @@ A API possui controle de acesso implementado através do Spring Security utiliza
 Para chamar qualquer um dos endpoints disponíveis na API deverá ser feita primeiramente a autenticação do usuário através do endpoint (/usuarios/login). Segue na nota 1 abaixo, uma relação de e-mail/senha que poderá servir como entrada para requisição do endpoint de autenticação. 
 
 Disponibilizamos o projeto da API através do Heroku no domínio https://cartao-fiap.herokuapp.com/. É possivel interagir com o webservice através do [Swagger](https://cartao-fiap.herokuapp.com/swagger-ui/index.html) - https://cartao-fiap.herokuapp.com/swagger-ui/index.html
+
+Disponibilizamos o projeto web através do Heroku no domínio https://fintap-web.herokuapp.com. 
 
 > **_NOTA 1:_** Criamos uma pequena massa de testes para possibilitar o teste da aplicação. Existem usuários cadastrados para cada um dos perfis de usuário. São eles: 
 > - Perfil Aluno:
@@ -41,6 +43,7 @@ Disponibilizamos o projeto da API através do Heroku no domínio https://cartao-
 
 ## 🛠️ Tecnologias utilizadas
 
+Aplicação API:
 - Linguagem Java (versão 1.8)
 - [Spring Framework](https://spring.io)
   - [Spring Initializr](https://start.spring.io)
@@ -55,6 +58,10 @@ Disponibilizamos o projeto da API através do Heroku no domínio https://cartao-
 - [H2](https://www.h2database.com)
 - [Swagger](http://swagger.io)
 - [Flyway](https://flywaydb.org)
+Aplicação Cliente (Angular):
+- [Angular](https://angular.io)
+- [Node](https://nodejs.org/)
+- [Heroku](https://heroku.com)
 
 ## ⚙️ Como executar o projeto
 
@@ -90,17 +97,21 @@ docker run -p 8081:8081 -e PORT='8081' -e DATASOURCE_URL='jdbc:h2:~/fiapdb/carta
 
 ### Rodando a aplicação cliente
 
+O projeto web foi publicado no Heroku através do endereço - https://fintap-web.herokuapp.com. No entanto, se desejar rodar a aplicação cliente localmente deverá proceder os seguintes passos: 
+
 Para executar a aplicação frontend que consome a API: 
 
-1. Clonar projeto Angular no GitHub: 
+1. Clonar projeto Angular no GitHub (terminal): 
 ~~~bash
 git clone https://github.com/FabioQuimico/WebServicesFront.git
+cd WebServicesFront/
 ~~~
-2. Importar o projeto na sua IDE de preferência (sugerido VSCode). 
-3. Executar os comandos abaixo para carregar dependências e abrir página:
+2. Abrir o projeto na sua IDE de preferência (sugerido VSCode) - apenas se desejar consultar código (opcional). 
+3. Executar os comandos abaixo para carregar dependências e executar aplicação (terminal):
 ~~~bash
-npm install
-ng serve --open
+npm install 
+npm run build
+npm start 
 ~~~
 
 
